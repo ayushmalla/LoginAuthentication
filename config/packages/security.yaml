@@ -23,7 +23,7 @@ security:
             custom_authenticator: App\Security\LoginAuthenticator
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 60 # 1 week in seconds
+                lifetime: 604800  # 1 week in seconds
                 path:     /
                 # by default, the feature is enabled by checking a
                 # checkbox in the login form (see below), uncomment the
@@ -32,7 +32,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -43,5 +43,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles:}
+        - { path: ^/user, roles: ROLE_USER }

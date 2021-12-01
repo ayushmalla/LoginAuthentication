@@ -21,6 +21,7 @@ class Test implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * 
      */
     private $username;
 

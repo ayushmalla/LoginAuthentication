@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Test;
+use App\Form\TestType;
+use App\Service\RegistrationValidation;
 use Doctrine\ORM\EntityManagerInterface as ORMEntityManagerInterface;
 use ORM\Doctrine\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,50 +27,62 @@ class RegistrationController extends AbstractController
 
     public function __construct(ORMEntityManagerInterface $em)
     {
-        $this->$em = $em;
+        $this->em = $em;
         
     }
+
     #[Route('/register', name: 'register')]
-    public function register(Request $request, UserPasswordEncoderInterface $PasswordEncoder): Response
+    public function register( Request $request, UserPasswordEncoderInterface $PasswordEncoder): Response
     {
-        $form = $this->createFormBuilder()
-            ->add('username')
-            ->add('password', RepeatedType::class, [
-                'type'=> PasswordType::class,
-                'required'=> true,
-                'first_options'=>['label' =>'Password'],
-                'second_options'=> ['label'=>'Confirm Password']
-            ])
-            ->add('register', SubmitType::class,[
-                'attr'=>[
-                    'class' => 'btn btn-success float-left'
-                ]
-            ])
-            ->getForm();
-            
-            $form->handleRequest($request);
+        
+        $user= new Test();
+        $form = $this->createForm(TestType::class, $user);
+    
+        
+        $form->handleRequest($request);
 
             if($form->isSubmitted()){
-                $data = $form->getData();
+                // $data = $form->getData();
 
                 $user = new Test();
 
-                $user->setUsername($data['username']);
-                $user->setPassword(
-                    $PasswordEncoder->encodePassword($user, $data['password'])
-                );
-                dump($user);
-
-                $em =  $this->getdoctrine()->getManager();
                 
-                $em->persist($user);
-                $em->flush();
+                $user->setUsername($form->get('username')->getData());
+                $user->setRoles($form->get('roles')->getData());
+                //getting entered password from the form
+            $password = $form->get('password')->getData();
 
+            //password Validation
+            if (strlen($password) <= '5') {
+                return $this->redirectToRoute('register',[ $this->addFlash('error', 'Your Password Must Contain At Least 5 Characters!')]);
+            }
+            elseif(!preg_match("#[0-9]+#",$password)) {
+                
+                return $this->redirectToRoute('register',[$this->addFlash('error', 'Your Password Must Contain At Least 1 Number!') ]);
+            }
+            elseif(!preg_match("#[A-Z]+#",$password)) {
+                return $this->redirectToRoute('register',[ $this->addFlash('error', 'Your Password Must Contain At Least 1 Capital Letter!')]);
+            }
+            elseif(!preg_match("#[a-z]+#",$password)) {
+                return $this->redirectToRoute('register',[ $this->addFlash('error', 'Your Password Must Contain At Least 1 Lowercase Letter!')]); 
+            }else{
+            $user->setPassword(
+                $PasswordEncoder->encodePassword($user, $form->get('password')->getData())
+            );
+        }
+        dump($user);
+                
+                // $em =  $this->getdoctrine()->getManager();
+
+                $this->em->persist($user);
+                $this->em->flush();
+             
                 return $this->redirect($this->generateUrl('app_login'));
 
-            }
-        return $this->render('registration/index.html.twig', [
+        }
+            return $this->render('registration/index.html.twig', [
             'form'=> $form->createView()
         ]);
+    
     }
 }
