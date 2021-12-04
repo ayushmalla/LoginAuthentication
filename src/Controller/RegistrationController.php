@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'register')]
-    public function register( Request $request, UserPasswordEncoderInterface $PasswordEncoder): Response
+    public function register( Request $request,UserPasswordEncoderInterface $PasswordEncoder): Response
     {
         
         $user= new Test();
@@ -49,6 +49,7 @@ class RegistrationController extends AbstractController
                 
                 $user->setUsername($form->get('username')->getData());
                 $user->setRoles($form->get('roles')->getData());
+                $user->setAddress(($form->get('address')->getData()));
                 //getting entered password from the form
             $password = $form->get('password')->getData();
 
@@ -72,7 +73,6 @@ class RegistrationController extends AbstractController
         }
         dump($user);
                 
-                // $em =  $this->getdoctrine()->getManager();
 
                 $this->em->persist($user);
                 $this->em->flush();

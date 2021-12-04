@@ -39,7 +39,11 @@
   </div>
 </nav>
         {% block body %}
-        
+        {# {% if is_granted('IS_AUTHENTICATED_FULLY') %} #}
+      <div class="">
+{# <label>Welcome {{app.user.username}}</label>
+      </div>
+      {% endif %} #}
         {% endblock %}
     </body>
 </html>

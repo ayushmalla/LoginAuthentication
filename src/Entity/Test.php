@@ -36,6 +36,16 @@ class Test implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="HomeNumber")
+     */
+    private $address;
+
+    // /**
+    //  * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="tests")
+    //  */
+    // private $Address;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,5 +128,17 @@ class Test implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
     }
 }
