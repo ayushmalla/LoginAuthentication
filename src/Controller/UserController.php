@@ -50,8 +50,6 @@ class UserController extends AbstractController
 
         if($form->isSubmitted()){
             
-        // dump($user);
-        // dump($request);
 
         /** @var UploadedFile $file */
         $file = $request->files->get('user')['attachment'];
@@ -61,18 +59,7 @@ class UserController extends AbstractController
         // dump($request);
         if($file){
             
-            // $filename = $fileUploader->upload($file);
-            $filename= md5(uniqid()) . '.' . $file->guessClientExtension();
-            
-            try{
-            $file->move(
-                //TODO: get target directory
-                $this->getParameter('image_dir'),
-                $filename 
-            );
-        }catch(FileException $e){
-            $e;
-            }
+            $filename = $fileUploader->upload($file);
             
             $user->setImage($filename);
             $user->setTitle($title);
@@ -82,7 +69,9 @@ class UserController extends AbstractController
         $this->em->persist($user);
         $this->em->flush();
 
-        return $this->redirectToRoute('insert');
+        $this->addFlash('success','Post Successfully Added!!!!');
+
+        return $this->redirectToRoute('view.index');
         }
         return $this->render('user/index.html.twig', [
             'form' => $form->createView(),

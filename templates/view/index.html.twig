@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ViewController!{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<div class="container" align="center">
+    <h1>List All Post</h1>
+</div>
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Title</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for i in view %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>
+                <a href="{{ path('view.show', {id : i.id}) }}">{{i.Title}}</a>
+            </td>
+            <td>
+                 <a href="{{path('view.delete',{id: i.id})}}"class="btn btn-danger"><i class="far fa-trash-alt">Delete</i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+
+
+</table>
+{% endblock %}

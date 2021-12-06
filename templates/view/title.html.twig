@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ViewController!{% endblock %}
+
+{% block body %}
+
+<div class="container" align="center">
+    <h1>{{title}}</h1>
+    <img src= "{{ '/uploads/' ~ image  }}" alt="" width="50%" height="50%">
+</div>
+
+
+{% endblock %}

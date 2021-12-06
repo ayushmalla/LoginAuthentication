@@ -45,3 +45,6 @@ security:
     access_control:
         - { path: ^/login, roles:}
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/insert, roles: ROLE_USER }
+        - { path: ^/view/, roles: ROLE_USER }
+        - { path: ^/view/show, roles: ROLE_USER }
