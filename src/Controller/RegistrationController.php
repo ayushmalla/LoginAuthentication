@@ -71,12 +71,12 @@ class RegistrationController extends AbstractController
                 $PasswordEncoder->encodePassword($user, $form->get('password')->getData())
             );
         }
-        dump($user);
                 
 
                 $this->em->persist($user);
                 $this->em->flush();
              
+                $this->addFlash('success','User Registered Successfully!!!!');
                 return $this->redirect($this->generateUrl('app_login'));
 
         }

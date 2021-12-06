@@ -1,9 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
+ {% block stylesheets %}
+    <style>
+    form i{  
+     position:absolute;
+    margin-left:420px;
+    margin-top: -32px;
+}
+
+
+</style>
+{% endblock %}
+
 
 {% block body %}
-<form method="post">
+<form method="post" style="max-width:450px;margin:auto">
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -17,12 +34,14 @@
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputUsername">Username</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+    <p class="icon-inside">
     <label for="inputPassword">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
+    <i class="bi bi-eye-slash" id="togglePassword"></i>
+    {# <input type="checkbox" onclick="myFunction()">Show Password #}
+    </p>
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+           value="{{ csrf_token('authenticate') }}" >
 
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -40,8 +59,9 @@
     </button>
 </form>
 <br>
-<div>
+<div style="max-width:450px;margin:auto">
 <b><i>No User Account Yet!!</i></b><a href="{{path('register')}}" class="btn btn-success"><i>Click Here!!!</i></a>
 </div>
+ <script src="{{asset('js/app.js')}}"></script>
 
 {% endblock %}

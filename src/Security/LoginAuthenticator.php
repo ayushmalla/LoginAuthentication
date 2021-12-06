@@ -2,6 +2,9 @@
 
 namespace App\Security;
 
+use App\Entity\Test;
+use App\Entity\User;
+use App\Repository\TestRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,8 +27,11 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     private UrlGeneratorInterface $urlGenerator;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    private TestRepository $tp;
+
+    public function __construct(UrlGeneratorInterface $urlGenerator, TestRepository $tp)
     {
+        $this->tp = $tp;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -34,6 +40,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $username = $request->request->get('username', '');
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
+
 
         return new Passport(
             new UserBadge($username),
@@ -51,7 +58,16 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('insert'));
+        dump($request->request->get('username'));
+
+
+        return new RedirectResponse($this->urlGenerator->generate('insert', array( 
+            'username'=> $request->request->get('username'),)));
+        
+    
+
+        // , array( 
+        //     'username'=> $request->request->get('username'),)
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

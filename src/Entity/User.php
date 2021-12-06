@@ -27,8 +27,14 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $image;
-    
 
+    /**
+   * @ORM\ManyToOne(targetEntity="Test", inversedBy="users")
+   * @ORM\JoinColumn(name="test_id", referencedColumnName="id")
+   */
+   private $test;
+
+    
 
     public function getId(): ?int
     {
@@ -55,6 +61,18 @@ class User
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getTest(): ?Test
+    {
+        return $this->test;
+    }
+
+    public function setTest(?Test $test): self
+    {
+        $this->test = $test;
 
         return $this;
     }

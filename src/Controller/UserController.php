@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Test;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\TestRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface as ORMEntityManagerInterface;
@@ -41,16 +43,19 @@ class UserController extends AbstractController
     }
 
      #[Route("/insert", name:"insert")]
-    public function insert(Request $request, FileUploader $fileUploader){   
+    public function insert(Request $request, FileUploader $fileUploader, TestRepository $tp){   
          
         $user= new User();
+
+        $test = new Test();
+
+
         $form = $this->createForm(UserType::class, $user);
         
         $form->handleRequest($request);
 
         if($form->isSubmitted()){
             
-
         /** @var UploadedFile $file */
         $file = $request->files->get('user')['attachment'];
         
@@ -63,6 +68,7 @@ class UserController extends AbstractController
             
             $user->setImage($filename);
             $user->setTitle($title);
+            // $user->setTest();
             
         }
         
@@ -73,8 +79,14 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('view.index');
         }
+        // dump($_GET['username']);
+        // $all = $tp->findByUsername($_GET['username']);
+
+        // dump($all);
         return $this->render('user/index.html.twig', [
             'form' => $form->createView(),
+            // 'all' => $all,
+
         ]);
     
     }

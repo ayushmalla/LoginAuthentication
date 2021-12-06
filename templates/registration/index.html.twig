@@ -4,9 +4,34 @@
 
 {# {% use 'bootstrap_4_layout.html.twig' %} #}
 
-{% block body %}
-    {{form(form)}}
+{% block stylesheets %}
+    <style>
+    .inside-icon{  
+    position:absolute;
+    margin-left:425px;
+    margin-top: -134px;
+}
+    .inside-icon1{        
+    position:absolute;
+    margin-left:423px;
+    margin-top: -50px;
 
+    }
+
+
+</style>
+ {% endblock %}
+
+{% block body %}
+<div  style="max-width:450px;margin:auto" >
+    {{form(form)}}
+    <div class="inside-icon">
+    <i class="bi bi-eye-slash" id="togglePassword"></i>
+    </div>
+    <div class="inside-icon1">
+    <i class="bi bi-eye-slash" id="togglePassword1"></i>
+    </div>
+</div>    
     <div class="container"> 
     {% for message in app.flashes('error') %}
     <div class="alert alert-danger">
@@ -14,5 +39,6 @@
     </div>
     {% endfor %}
     </div>
+<script src="{{asset('js/app.js')}}"></script>
 {% endblock %}
 

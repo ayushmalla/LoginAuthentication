@@ -7,6 +7,7 @@ use App\Entity\Test;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -41,7 +42,6 @@ class TestType extends AbstractType
                     'second_options'=> ['label'=>'Confirm Password']
                     
                 ])
-                
                 ->add('register', SubmitType::class,[
                     'attr'=>[
                         'class' => 'btn btn-success float-left'
