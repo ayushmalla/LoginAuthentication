@@ -64,4 +64,18 @@ class TestRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+    // public function findByUsername(string $username):array
+    // {
+    //     $conn = $this->getEntityManager()->getConnection();
+
+    //     $sql = '
+    //         SELECT id FROM test p
+    //         WHERE username = ?
+    //         ';
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->execute(['username' => $username]);
+
+    //     // returns an array of arrays (i.e. a raw data set)
+    //     return $stmt->dba_fetch;
+    // }
 }
