@@ -58,7 +58,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        dump($request->request->get('username'));
+        // dump($request->request->get('username'));
 
 
         return new RedirectResponse($this->urlGenerator->generate('insert', array( 

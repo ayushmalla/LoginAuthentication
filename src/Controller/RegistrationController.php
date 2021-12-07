@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Exp;
 use App\Entity\Test;
 use App\Form\TestType;
 use App\Service\RegistrationValidation;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface as ORMEntityManagerInterface;
 use ORM\Doctrine\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,20 +38,39 @@ class RegistrationController extends AbstractController
     {
         
         $user= new Test();
+        
+        // $user->setUsername('Hello');
+        // $exp = new Exp();
+        
+        // $exp->setTitle("java");
+        // $exp->setLocation("Baneshwor");
+        // $exp->setDateFrom(new \DateTime());
+        // $exp->setDateTo(new \DateTime());
+
+        // $exp->setTest($user);
+
+        // $user->addExp($exp);
+        
         $form = $this->createForm(TestType::class, $user);
-    
+        // dump($user);
+        
+        // $orignalExp = new ArrayCollection();
+        // foreach ($user->getExp() as $exp) {
+        //     $orignalExp->add($exp);
+        // }
         
         $form->handleRequest($request);
 
             if($form->isSubmitted()){
                 // $data = $form->getData();
-
-                $user = new Test();
-
+                // dump($user);
                 
-                $user->setUsername($form->get('username')->getData());
-                $user->setRoles($form->get('roles')->getData());
-                $user->setAddress(($form->get('address')->getData()));
+                // $user->setUsername($form->get('username')->getData());
+                // $user->setRoles($form->get('roles')->getData());
+                // $user->setAddress(($form->get('address')->getData()));
+                
+            
+                // $user->addExp($form->get('exp')->getData());
                 //getting entered password from the form
             $password = $form->get('password')->getData();
 
@@ -72,7 +93,7 @@ class RegistrationController extends AbstractController
             );
         }
                 
-
+            // dump($user);
                 $this->em->persist($user);
                 $this->em->flush();
              

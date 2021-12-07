@@ -21,6 +21,7 @@ class TestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
             $builder
+            
             ->add('username', TextType::class,[
                 'attr'=>[
                     'placeholder'=> 'Enter Username',
@@ -30,6 +31,19 @@ class TestType extends AbstractType
                 // each entry in the array will be an "email" field
                 // 'entry_type' => ArrayType::class,
                 // these options are passed to each "email" type
+                
+            ])
+             // this is the embeded form, the most important things are highlighted at the bottom
+             ->add('exp', CollectionType::class, [
+                'entry_type' => ExpType::class,
+                'entry_options' => [
+                    'label' => false
+                ],
+                'by_reference' => false,
+                // this allows the creation of new forms and the prototype too
+                'allow_add' => true,
+                // self explanatory, this one allows the form to be removed
+                'allow_delete' => true
                 
             ])
             ->add('address',  EntityType::class,[
@@ -42,6 +56,7 @@ class TestType extends AbstractType
                     'second_options'=> ['label'=>'Confirm Password']
                     
                 ])
+                
                 ->add('register', SubmitType::class,[
                     'attr'=>[
                         'class' => 'btn btn-success float-left'

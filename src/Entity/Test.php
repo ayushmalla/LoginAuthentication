@@ -50,9 +50,15 @@ class Test implements UserInterface, PasswordAuthenticatedUserInterface
     */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Exp", mappedBy="test", cascade={"persist"})
+     */
+    private $exp;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->exp = new ArrayCollection();
     }
 
 
@@ -176,6 +182,36 @@ class Test implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($user->getTest() === $this) {
                 $user->setTest(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exp[]
+     */
+    public function getExp(): Collection
+    {
+        return $this->exp;
+    }
+
+    public function addExp(Exp $exp): self
+    {
+        if (!$this->exp->contains($exp)) {
+            $this->exp[] = $exp;
+            $exp->setTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExp(Exp $exp): self
+    {
+        if ($this->exp->removeElement($exp)) {
+            // set the owning side to null (unless already changed)
+            if ($exp->getTest() === $this) {
+                $exp->setTest(null);
             }
         }
 

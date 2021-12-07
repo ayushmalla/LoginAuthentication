@@ -24,7 +24,28 @@
 
 {% block body %}
 <div  style="max-width:450px;margin:auto" >
-    {{form(form)}}
+    {# {{form_widget(form)}} #}
+    
+
+ <h2>Registration</h2>
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{form_row(form.roles)}}
+        {{form_row(form.address)}}
+        {# render each row and field in the embedded form, in this example it's rendering the experience (Exp) fiels as rows #}
+        <div class="col-sm-8 col-sm-offset-2" id="exp_list" data-prototype="{{ form_widget(form.exp.vars.prototype)|e('html_attr') }}">
+            {% for row in form.exp %}
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <strong>{{ row.vars.value.title }}</strong>
+                    </div>
+                    <div class="panel-body">
+                        {{ form_row(row) }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {{ form_end(form) }}
     <div class="inside-icon">
     <i class="bi bi-eye-slash" id="togglePassword"></i>
     </div>
@@ -32,6 +53,8 @@
     <i class="bi bi-eye-slash" id="togglePassword1"></i>
     </div>
 </div>    
+
+
     <div class="container"> 
     {% for message in app.flashes('error') %}
     <div class="alert alert-danger">
@@ -40,5 +63,6 @@
     {% endfor %}
     </div>
 <script src="{{asset('js/app.js')}}"></script>
+{# <script src="{{asset('js/exp.js')}}"></script> #}
 {% endblock %}
 
